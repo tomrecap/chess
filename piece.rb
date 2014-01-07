@@ -7,8 +7,7 @@ class Piece
   end
 
   def inspect
-    # {color: color, position: position}
-    color.to_s
+    "#{color} #{self.class}"
   end
 
 end
