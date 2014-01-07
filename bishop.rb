@@ -4,5 +4,8 @@ class Bishop < SlidingPiece
     super(position, board, color)
   end
 
+  def move_dirs
+    [:northwest, :northeast, :southeast, :southwest]
+  end
 
 end

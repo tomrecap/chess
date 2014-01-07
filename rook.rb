@@ -4,5 +4,8 @@ class Rook < SlidingPiece
     super(position, board, color)
   end
 
+  def move_dirs
+    [:north, :east, :south, :west]
+  end
 
 end
