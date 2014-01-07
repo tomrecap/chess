@@ -11,12 +11,25 @@ class Board
   end
 
   def []=(position, piece)
-    board[position] = piece
+    x,y = position
+    rows[7 - y][x] = piece
   end
 
   def [](position)
     x, y = position
-    rows[8 - y][x]
+    rows[7 - y][x]
+  end
+
+  def render
+    rows.map do |row|
+      row.map do |square|
+        if nil
+          "_"
+        else
+          square.inspect
+        end
+      end.join("\t")
+    end.join("\n")
   end
 
 end

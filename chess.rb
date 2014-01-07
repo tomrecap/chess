@@ -1,3 +1,4 @@
+require './board.rb'
 require './piece.rb'
 
 require './sliding_piece.rb'
