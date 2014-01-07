@@ -89,10 +89,11 @@ class Board
     pieces.each { |piece| self[piece.position] = piece }
   end
 
-  def move(start_pos, end_pos)
+  def move(start_pos, end_pos, player_color)
     active_piece = self[start_pos]
 
     raise ArgumentError.new if active_piece.nil?
+    raise ArgumentError.new if active_piece.color != player_color
     raise RuntimeError.new unless active_piece.valid_moves.include?(end_pos)
 
     self[end_pos] = active_piece

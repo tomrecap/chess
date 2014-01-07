@@ -10,3 +10,5 @@ require './stepping_piece.rb'
 require './king.rb'
 require './knight.rb'
 require './pawn.rb'
+
+require './game.rb'
