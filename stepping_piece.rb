@@ -5,12 +5,12 @@ class SteppingPiece < Piece
   end
 
   def find_legal_moves
-    find_spaces_one_step_away.select do |square|
+    find_squares_one_step_away.select do |square|
       board[square] == nil || board[square].color != color
     end
   end
 
-  def find_spaces_one_step_away
+  def find_squares_one_step_away
     x, y = position
 
     accessible_squares = legal_steps.map do |(dx, dy)|
