@@ -11,15 +11,20 @@ class Piece
   end
 
   def inspect
-    "#{color} #{self.class}"
-  end
-
-  def can_move_to?(square)
-    find_legal_moves.include?(square)
+    "#{color[0]} #{self.class.to_s[0..1]}"
   end
 
   def dup(new_board)
     self.class.new(position.dup, new_board, color)
   end
 
+  def move_into_check?(square)
+    new_board = board.dup
+    new_board.move!(position, square)
+    new_board.in_check?(color)
+  end
+
+  def valid_moves
+    find_legal_moves.reject { |square| move_into_check?(square) }
+  end
 end

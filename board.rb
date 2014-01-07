@@ -1,3 +1,5 @@
+require 'debugger'
+
 class Board
 
   attr_accessor :rows
@@ -29,7 +31,7 @@ class Board
     rows.map do |row|
       row.map do |square|
         if square.nil?
-          "__________"
+          "____"
         else
           square.inspect
         end
@@ -51,20 +53,20 @@ class Board
     end
   end
 
-  def in_check?(king_color)
+  def in_check?(king_color) #error is in here
     king_position = find_king(king_color)
 
     each do |square|
       next if square.nil?
 
       return true if square.color != king_color &&
-      square.can_move_to?(king_position)
+      square.find_legal_moves.include?(king_position) #separate moves and valid moves
     end
 
     false
   end
 
-# refactor
+# refactor LATER
   def place_pieces
     pieces = [King.new([4,0], self, :white),
     Queen.new([3,0], self, :white),
@@ -93,8 +95,15 @@ class Board
     active_piece = self[start_pos]
 
     raise ArgumentError.new if active_piece.nil?
-    raise RuntimeError.new unless active_piece.can_move_to?(end_pos)
+    raise RuntimeError.new unless active_piece.valid_moves.include?(end_pos)
 
+    self[end_pos] = active_piece
+    active_piece.position = end_pos
+    self[start_pos] = nil
+  end
+
+  def move!(start_pos, end_pos)
+    active_piece = self[start_pos]
     self[end_pos] = active_piece
     active_piece.position = end_pos
     self[start_pos] = nil
