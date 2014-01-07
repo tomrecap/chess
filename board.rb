@@ -53,14 +53,12 @@ class Board
     end
   end
 
-  def in_check?(king_color) #error is in here
+  def in_check?(king_color)
     king_position = find_king(king_color)
 
     each do |square|
-      next if square.nil?
-
-      return true if square.color != king_color &&
-      square.find_legal_moves.include?(king_position) #separate moves and valid moves
+      next if square.nil? || square.color == king_color
+      return true if square.find_legal_moves.include?(king_position)
     end
 
     false
@@ -122,4 +120,14 @@ class Board
     new_board
   end
 
+  def checkmate?(color)
+    return false unless in_check?(color)
+
+    each do |square|
+      next if square.nil? || square.color != color
+      return false unless square.valid_moves.empty?
+    end
+
+    true
+  end
 end
