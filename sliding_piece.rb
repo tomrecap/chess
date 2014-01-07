@@ -4,10 +4,10 @@ class SlidingPiece < Piece
     super(position, board, color)
   end
 
-  def find_legal_moves(directions)
+  def find_legal_moves
     legal_moves = []
 
-    directions.each do |direction|
+    move_dirs.each do |direction|
       legal_moves += find_legal_moves_in_one_direction(direction)
     end
 
