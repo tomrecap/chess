@@ -25,12 +25,12 @@ class Board
     rows.map do |row|
       row.map do |square|
         if square.nil?
-          "_"
+          "__________"
         else
           square.inspect
         end
       end.join("\t")
-    end.join("\n")
+    end.join("\n\n")
   end
 
   def each(&blk)
@@ -54,7 +54,7 @@ class Board
       next if square.nil?
 
       return true if square.color != king_color &&
-      square.find_legal_moves.include?(king_position)
+      square.can_move_to?(king_position)
     end
 
     false
@@ -82,6 +82,17 @@ class Board
     8.times { |col| pieces << Pawn.new([col, 6], self, :black) }
 
     pieces.each { |piece| self[piece.position] = piece }
+  end
+
+  def move(start_pos, end_pos)
+    active_piece = self[start_pos]
+
+    raise ArgumentError.new if active_piece.nil?
+    raise RuntimeError.new unless active_piece.can_move_to?(end_pos)
+
+    self[end_pos] = active_piece
+    active_piece.position = end_pos
+    self[start_pos] = nil
   end
 
 end

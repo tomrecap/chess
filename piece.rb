@@ -1,6 +1,7 @@
 class Piece
 
-  attr_reader :color, :position, :board
+  attr_accessor :position
+  attr_reader :color, :board
 
   def initialize(position, board, color)
     @position, @board, @color = position, board, color
@@ -8,6 +9,10 @@ class Piece
 
   def inspect
     "#{color} #{self.class}"
+  end
+
+  def can_move_to?(square)
+    find_legal_moves.include?(square)
   end
 
 end
