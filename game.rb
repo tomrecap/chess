@@ -9,6 +9,8 @@ class Game
   end
 
   def play
+    active_player = @player1
+
     until game_over?
 
       begin
@@ -25,6 +27,13 @@ class Game
 
       active_player = other_player(active_player)
     end
+
+    puts board.render
+    puts "The winner is the #{winner} player."
+  end
+
+  def winner
+    board.checkmate?(:white) ? :black : :white
   end
 
   def game_over?

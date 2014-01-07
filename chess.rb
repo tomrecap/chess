@@ -11,4 +11,7 @@ require './king.rb'
 require './knight.rb'
 require './pawn.rb'
 
+require './human_player.rb'
 require './game.rb'
+
+# add start game function
