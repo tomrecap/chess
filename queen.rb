@@ -4,9 +4,8 @@ class Queen < SlidingPiece
     super(position, board, color)
   end
 
-  def move_dirs
-    [:north, :east, :south, :west,
-      :northwest, :northeast, :southeast, :southwest]
+  def move_directions
+    DIAGONAL_STEPS + ORTHOGONAL_STEPS
   end
 
 end

@@ -64,6 +64,7 @@ class Board
     false
   end
 
+# refactor
   def place_pieces
     pieces = [King.new([4,0], self, :white),
     Queen.new([3,0], self, :white),
@@ -105,7 +106,7 @@ class Board
     each do |square|
       next if square.nil?
 
-      new_piece = square.class.new(square.position, new_board, square.color)
+      new_piece = square.dup(new_board)
       new_board[square.position] = new_piece
     end
 

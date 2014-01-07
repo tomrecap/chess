@@ -5,7 +5,7 @@ class King < SteppingPiece
   end
 
   def legal_steps
-    [[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1],[0,1],[1,1]]
+    DIAGONAL_STEPS + ORTHOGONAL_STEPS
   end
 
 end
