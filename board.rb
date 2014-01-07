@@ -6,9 +6,13 @@ class Board
     Array.new(8) { Array.new(8) }
   end
 
-  def initialize(board = self.class.blank_board)
-    @rows = board
-    place_pieces
+  def initialize(rows = [])
+    if rows.empty?
+      @rows = self.class.blank_board
+      place_pieces
+    else
+      @rows = rows
+    end
   end
 
   def []=(position, piece)
@@ -93,6 +97,19 @@ class Board
     self[end_pos] = active_piece
     active_piece.position = end_pos
     self[start_pos] = nil
+  end
+
+  def dup
+    new_board = Board.new(self.class.blank_board)
+
+    each do |square|
+      next if square.nil?
+
+      new_piece = square.class.new(square.position, new_board, square.color)
+      new_board[square.position] = new_piece
+    end
+
+    new_board
   end
 
 end
