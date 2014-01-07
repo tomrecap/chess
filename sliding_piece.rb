@@ -1,16 +1,37 @@
 class SlidingPiece < Piece
 
-  attr_reader :position
-
   def initialize(position, board, color)
     super(position, board, color)
   end
 
-  def legal_moves
+  def find_legal_moves(directions)
+    legal_moves = []
+
+    directions.each do |direction|
+      legal_moves += find_legal_moves_in_one_direction(direction)
+    end
+
+    legal_moves
+  end
+
+  def find_legal_moves_in_one_direction(direction)
+    legal_moves = []
+    squares = find_all_squares_in_one_direction(direction)
+
+    squares.each do |square|
+      if board[square].nil?
+        legal_moves << square
+      else
+        legal_moves << square unless board[square].color == color
+        break
+      end
+    end
+
+    legal_moves
 
   end
 
-  def all_squares_in_one_direction(direction)
+  def find_all_squares_in_one_direction(direction)
     x, y = position
     squares = []
 
