@@ -13,7 +13,7 @@ class Pawn < Piece
     y = position[1]
     one_ahead, two_ahead, starting_y = identify_spaces_ahead
 
-    if !board[one_ahead].nil?
+    if board[one_ahead]
       []
     elsif board[two_ahead].nil? && y == starting_y
       [one_ahead, two_ahead]

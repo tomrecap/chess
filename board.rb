@@ -28,7 +28,6 @@ class Board
       row.map.with_index do |square, j|
         square_color = (i + j).even? ? :light_white : :white
 
-
         if square.nil?
           "   ".colorize(:background => square_color)
         else
@@ -60,11 +59,11 @@ class Board
   def dup
     new_board = Board.new(self.class.blank_board)
 
-    each do |square|
-      next if square.nil?
+    each do |piece|
+      next if piece.nil?
 
-      new_piece = square.dup(new_board)
-      new_board[square.position] = new_piece
+      new_piece = piece.dup(new_board)
+      new_board[piece.position] = new_piece
     end
 
     new_board
@@ -73,23 +72,19 @@ class Board
   def checkmate?(king_color)
     return false unless in_check?(king_color)
 
-    each do |square|
-      next if square.nil? || square.color != king_color
-      return false unless square.valid_moves.empty?
+    !any? do |piece|
+      next if piece.nil? || piece.color != king_color
+      !piece.valid_moves.empty?
     end
-
-    true
   end
 
   def in_check?(king_color)
     king_position = find_king(king_color)
 
-    each do |square|
-      next if square.nil? || square.color == king_color
-      return true if square.find_legal_moves.include?(king_position)
+    any? do |piece|
+      next if piece.nil? || piece.color == king_color
+      piece.find_legal_moves.include?(king_position)
     end
-
-    false
   end
 
   private
@@ -103,10 +98,15 @@ class Board
     end
   end
 
+  def any?(&blk)
+    each { |square| return true if blk.call(square) }
+    false
+  end
+
   def find_king(color)
-    each do |square|
-      if square.is_a?(King) && square.color == color
-        return square.position
+    each do |piece|
+      if piece.is_a?(King) && piece.color == color
+        return piece.position
       end
     end
   end

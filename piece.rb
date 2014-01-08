@@ -30,8 +30,7 @@ class Piece
   end
 
   def inspect
-    # "#{color[0]} #{self.class.to_s[0..1]}"
-    { postion: position, color: color }
+     { postion: position, color: color }
   end
 
   def render
@@ -42,9 +41,9 @@ class Piece
     self.class.new(position.dup, new_board, color)
   end
 
-  def move_into_check?(square)
+  def move_into_check?(destination_square)
     new_board = board.dup
-    new_board.move!(position, square)
+    new_board.move!(position, destination_square)
     new_board.in_check?(color)
   end
 
