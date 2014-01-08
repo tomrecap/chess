@@ -7,5 +7,4 @@ class King < SteppingPiece
   def legal_steps
     DIAGONAL_STEPS + ORTHOGONAL_STEPS
   end
-
 end

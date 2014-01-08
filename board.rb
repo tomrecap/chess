@@ -4,14 +4,10 @@ class Board
 
   attr_accessor :rows
 
-  def self.blank_board
-    Array.new(8) { Array.new(8) }
-  end
-
   def initialize(rows = [])
     if rows.empty?
       @rows = self.class.blank_board
-      place_pieces
+      [:white, :black].each { |color| place_pieces(color) }
     else
       @rows = rows
     end
@@ -37,56 +33,6 @@ class Board
         end
       end.join("\t")
     end.join("\n\n")
-  end
-
-  def each(&blk)
-    rows.each do |row|
-      row.each { |square| blk.call(square) }
-    end
-  end
-
-  def find_king(color)
-    each do |square|
-      if square.is_a?(King) && square.color == color
-        return square.position
-      end
-    end
-  end
-
-  def in_check?(king_color)
-    king_position = find_king(king_color)
-
-    each do |square|
-      next if square.nil? || square.color == king_color
-      return true if square.find_legal_moves.include?(king_position)
-    end
-
-    false
-  end
-
-# refactor LATER
-  def place_pieces
-    pieces = [King.new([4,0], self, :white),
-    Queen.new([3,0], self, :white),
-    Bishop.new([2,0], self, :white),
-    Bishop.new([5,0], self, :white),
-    Knight.new([1,0], self, :white),
-    Knight.new([6,0], self, :white),
-    Rook.new([0,0], self, :white),
-    Rook.new([7,0], self, :white),
-    King.new([4,7], self, :black),
-    Queen.new([3,7], self, :black),
-    Bishop.new([2,7], self, :black),
-    Bishop.new([5,7], self, :black),
-    Knight.new([1,7], self, :black),
-    Knight.new([6,7], self, :black),
-    Rook.new([0,7], self, :black),
-    Rook.new([7,7], self, :black)]
-
-    8.times { |col| pieces << Pawn.new([col, 1], self, :white) }
-    8.times { |col| pieces << Pawn.new([col, 6], self, :black) }
-
-    pieces.each { |piece| self[piece.position] = piece }
   end
 
   def move(start_pos, end_pos, player_color)
@@ -121,14 +67,61 @@ class Board
     new_board
   end
 
-  def checkmate?(color)
-    return false unless in_check?(color)
+  def checkmate?(king_color)
+    return false unless in_check?(king_color)
 
     each do |square|
-      next if square.nil? || square.color != color
+      next if square.nil? || square.color != king_color
       return false unless square.valid_moves.empty?
     end
 
     true
+  end
+
+  def in_check?(king_color)
+    king_position = find_king(king_color)
+
+    each do |square|
+      next if square.nil? || square.color == king_color
+      return true if square.find_legal_moves.include?(king_position)
+    end
+
+    false
+  end
+
+  private
+  def self.blank_board
+    Array.new(8) { Array.new(8) }
+  end
+
+  def each(&blk)
+    rows.each do |row|
+      row.each { |square| blk.call(square) }
+    end
+  end
+
+  def find_king(color)
+    each do |square|
+      if square.is_a?(King) && square.color == color
+        return square.position
+      end
+    end
+  end
+
+  def place_pieces(color)
+    main_row = (color == :white ? 0 : 7)
+    pawn_row = (color == :white ? 1 : 6)
+
+    pieces = [  King.new  ([4, main_row], self, color),
+                Queen.new ([3, main_row], self, color),
+                Bishop.new([2, main_row], self, color),
+                Bishop.new([5, main_row], self, color),
+                Knight.new([1, main_row], self, color),
+                Knight.new([6, main_row], self, color),
+                Rook.new  ([0, main_row], self, color),
+                Rook.new  ([7, main_row], self, color)  ]
+    8.times { |col| pieces << Pawn.new([col, pawn_row], self, color) }
+
+    pieces.each { |piece| self[piece.position] = piece }
   end
 end

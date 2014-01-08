@@ -11,7 +11,7 @@ class Piece
   end
 
   def inspect
-    "#{color[0]} #{self.class.to_s[0..1]}"
+    { postion: position, color: color }
   end
 
   def dup(new_board)

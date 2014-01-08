@@ -14,6 +14,7 @@ class SlidingPiece < Piece
     legal_moves
   end
 
+  private
   def find_legal_moves_in_one_direction(direction)
     legal_moves = []
     squares = find_all_squares_in_one_direction(direction)

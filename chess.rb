@@ -15,3 +15,6 @@ require './human_player.rb'
 require './game.rb'
 
 # add start game function
+if $PROGRAM_NAME == __FILE__
+  Game.new.play
+end

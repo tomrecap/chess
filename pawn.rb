@@ -8,25 +8,26 @@ class Pawn < Piece
     find_spaces_ahead + find_spaces_diagonally
   end
 
+  private
   def find_spaces_ahead
-    x, y = position
+    y = position[1]
+    one_ahead, two_ahead, starting_y = identify_spaces_ahead
 
-    if color == :white
-      one_square_ahead = [x, y + 1]
-      two_squares_ahead = [x, y + 2]
-      starting_y = 1
-    else
-      one_square_ahead = [x, y - 1]
-      two_squares_ahead = [x, y - 2]
-      starting_y = 6
-    end
-
-    if !board[one_square_ahead].nil?
+    if !board[one_ahead].nil?
       []
-    elsif board[two_squares_ahead].nil? && y == starting_y
-      [one_square_ahead, two_squares_ahead]
+    elsif board[two_ahead].nil? && y == starting_y
+      [one_ahead, two_ahead]
     else
-      [one_square_ahead]
+      [one_ahead]
+    end
+  end
+
+  def identify_spaces_ahead
+    x, y = position
+    if color == :white
+      [[x, y + 1], [x, y + 2], 1]
+    else
+      [[x, y - 1], [x, y - 2], 6]
     end
   end
 

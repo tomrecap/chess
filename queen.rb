@@ -7,5 +7,4 @@ class Queen < SlidingPiece
   def move_directions
     DIAGONAL_STEPS + ORTHOGONAL_STEPS
   end
-
 end

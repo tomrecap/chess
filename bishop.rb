@@ -7,5 +7,4 @@ class Bishop < SlidingPiece
   def move_directions
     DIAGONAL_STEPS
   end
-
 end

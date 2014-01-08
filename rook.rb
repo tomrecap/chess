@@ -7,5 +7,4 @@ class Rook < SlidingPiece
   def move_directions
     ORTHOGONAL_STEPS
   end
-
 end

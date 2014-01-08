@@ -7,5 +7,4 @@ class Knight < SteppingPiece
   def legal_steps
     [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]]
   end
-
 end

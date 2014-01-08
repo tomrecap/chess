@@ -10,6 +10,7 @@ class SteppingPiece < Piece
     end
   end
 
+  private
   def find_squares_one_step_away
     x, y = position
 
@@ -21,5 +22,4 @@ class SteppingPiece < Piece
       square.all? { |coord| coord.between?(0,7) }
     end
   end
-
 end

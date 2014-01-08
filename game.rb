@@ -32,6 +32,7 @@ class Game
     puts "The winner is the #{winner} player."
   end
 
+  private
   def winner
     board.checkmate?(:white) ? :black : :white
   end
