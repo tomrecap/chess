@@ -3,6 +3,25 @@ class Piece
   DIAGONAL_STEPS = [[1, 1], [1, -1], [-1, -1], [-1, 1]]
   ORTHOGONAL_STEPS = [[1, 0], [0, -1], [-1, 0], [0, 1]]
 
+  WHITE_UNICODES = {
+    King:   "\u2654",
+    Queen:  "\u2655",
+    Rook:   "\u2656",
+    Bishop: "\u2657",
+    Knight: "\u2658",
+    Pawn:   "\u2659",
+  }
+  BLACK_UNICODES = {
+    King:   "\u265a",
+    Queen:  "\u265b",
+    Rook:   "\u265c",
+    Bishop: "\u265d",
+    Knight: "\u265e",
+    Pawn:   "\u265f"
+  }
+  CHESS_SYMBOLS = { white: WHITE_UNICODES,
+                    black: BLACK_UNICODES }
+
   attr_accessor :position
   attr_reader :color, :board
 
@@ -13,6 +32,10 @@ class Piece
   def inspect
     # "#{color[0]} #{self.class.to_s[0..1]}"
     { postion: position, color: color }
+  end
+
+  def render
+    CHESS_SYMBOLS[color][self.class.to_s.to_sym]
   end
 
   def dup(new_board)

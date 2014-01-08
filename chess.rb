@@ -1,3 +1,4 @@
+require 'colorize'
 require './board.rb'
 require './piece.rb'
 
