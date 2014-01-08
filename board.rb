@@ -112,14 +112,14 @@ class Board
     main_row = (color == :white ? 0 : 7)
     pawn_row = (color == :white ? 1 : 6)
 
-    pieces = [  King.new  ([4, main_row], self, color),
-                Queen.new ([3, main_row], self, color),
-                Bishop.new([2, main_row], self, color),
-                Bishop.new([5, main_row], self, color),
-                Knight.new([1, main_row], self, color),
-                Knight.new([6, main_row], self, color),
-                Rook.new  ([0, main_row], self, color),
-                Rook.new  ([7, main_row], self, color)  ]
+    pieces = [King  .new([4, main_row], self, color),
+              Queen .new([3, main_row], self, color),
+              Bishop.new([2, main_row], self, color),
+              Bishop.new([5, main_row], self, color),
+              Knight.new([1, main_row], self, color),
+              Knight.new([6, main_row], self, color),
+              Rook  .new([0, main_row], self, color),
+              Rook  .new([7, main_row], self, color)]
     8.times { |col| pieces << Pawn.new([col, pawn_row], self, color) }
 
     pieces.each { |piece| self[piece.position] = piece }
