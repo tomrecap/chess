@@ -25,7 +25,7 @@ class Board
 
   def render
     rows.map.with_index do |row, i|
-      row.map.with_index do |square, j|
+      ([" #{8 - i} "] + row.map.with_index do |square, j|
         square_color = (i + j).even? ? :light_white : :white
 
         if square.nil?
@@ -33,8 +33,8 @@ class Board
         else
           " #{square.render} ".colorize(:background => square_color)
         end
-      end.join
-    end.join("\n")
+      end).join
+    end.join("\n") + "\n    #{("a".."h").to_a.join("  ")} "
   end
 
   def move(start_pos, end_pos, player_color)
