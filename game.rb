@@ -15,7 +15,11 @@ class Game
 
       begin
         puts board.render
-        start_position, end_position = active_player.play_turn
+        input = active_player.play_turn
+
+        return save if input.nil?
+        start_position, end_position = input
+
         board.move(start_position, end_position, active_player.color)
       rescue ArgumentError
         puts "You have no piece on that square. Please try again."
@@ -33,6 +37,17 @@ class Game
   end
 
   private
+
+  def save
+    puts "What would you like to call your game?"
+    filename = gets.chomp
+
+    File.write("#{filename}.txt", YAML.dump(self))
+
+    puts "File saved."
+    puts "Resume your game by typing 'ruby #{__FILE__} #{filename}.txt'."
+  end
+
   def winner
     board.checkmate?(:white) ? :black : :white
   end

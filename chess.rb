@@ -1,3 +1,4 @@
+require 'yaml'
 require 'colorize'
 require './board.rb'
 require './piece.rb'
@@ -16,5 +17,9 @@ require './human_player.rb'
 require './game.rb'
 
 if $PROGRAM_NAME == __FILE__
-  Game.new.play
+  if ARGV.empty?
+    Game.new.play
+  else
+    YAML.load_file(ARGV.shift).play
+  end
 end

@@ -38,6 +38,8 @@ class Board
   end
 
   def move(start_pos, end_pos, player_color)
+    raise ArgumentError.new unless start_pos.all? { |coord| coord.between?(0,7) }
+
     active_piece = self[start_pos]
 
     raise ArgumentError.new if active_piece.nil?
