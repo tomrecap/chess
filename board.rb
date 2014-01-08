@@ -49,6 +49,8 @@ class Board
     self[end_pos] = active_piece
     active_piece.position = end_pos
     self[start_pos] = nil
+
+    promote_pawn(end_pos) if eligible_for_promotion?(end_pos)
   end
 
   def move!(start_pos, end_pos)
@@ -71,13 +73,10 @@ class Board
     new_board
   end
 
-  def checkmate?(king_color)
-    return false unless in_check?(king_color)
+  def checkmate?(player_color)
+    return false unless in_check?(player_color)
 
-    !any? do |piece|
-      next if piece.nil? || piece.color != king_color
-      !piece.valid_moves.empty?
-    end
+    !any_valid_moves?(player_color)
   end
 
   def in_check?(king_color)
@@ -87,6 +86,12 @@ class Board
       next if piece.nil? || piece.color == king_color
       piece.find_legal_moves.include?(king_position)
     end
+  end
+
+  def stalemate?(player_color)
+    return false if in_check?(player_color)
+
+    !any_valid_moves?(player_color)
   end
 
   private
@@ -129,4 +134,41 @@ class Board
 
     pieces.each { |piece| self[piece.position] = piece }
   end
+
+  def any_valid_moves?(player_color)
+    any? do |piece|
+      next if piece.nil? || piece.color != player_color
+      !piece.valid_moves.empty?
+    end
+  end
+
+  def eligible_for_promotion?(position)
+    last_row = self[position].color == :white ? 7 : 0
+    self[position].is_a?(Pawn) && position[1] == last_row
+  end
+
+  def promote_pawn(position)
+    puts "Your pawn is eligible for promotion."
+    puts "Please choose the type of piece you want."
+
+    begin
+      new_piece = case gets.chomp.downcase
+      when "queen"
+        Queen .new(position, self, self[position].color)
+      when "rook"
+        Rook  .new(position, self, self[position].color)
+      when "bishop"
+        Bishop.new(position, self, self[position].color)
+      when "knight"
+        Knight.new(position, self, self[position].color)
+      else
+        raise "error"
+      end
+      self[position] = new_piece
+    rescue
+      puts "Please choose a valid piece type."
+      retry
+    end
+  end
+
 end

@@ -8,16 +8,15 @@ class HumanPlayer
 
   def play_turn
     puts "It is the #{color} player's turn."
-    puts "Please select a piece by entering a position, or s to save."
+    puts "Please enter a move, type s to save, or q to quit."
     input = gets.chomp.downcase
 
-    return if input == "s"
-    start_position = convert_to_indices(input)
+    raise StandardError.new if input.empty?
+    return input if input == "s" || input == "q"
 
-    puts "Please enter the position you would like to move it to."
-    end_position = convert_to_indices(gets.chomp.downcase)
-
-    [start_position, end_position]
+    input.delete(" ").split(",").map do |coords|
+      convert_to_indices(coords)
+    end
   end
 
   private
